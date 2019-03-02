@@ -11,16 +11,14 @@ pygame.display.set_caption("My Game") #Window Name
 x=100
 y=400 #Starting coordinates of object
 
-width=32
-height=32 #Dimensions of object
+width=64
+height=64 #Dimensions of object
 
-vel=20 #speed of object
+vel=20 #vel of object
 
 bg=pygame.image.load("Game/bg.jpg")
 stand=pygame.image.load("Game/standing.png")
-left1=pygame.image.load("Game/L1.png")
-right1=pygame.image.load("Game/R1.png")
-
+#*All images are 64x64*
 leftMotion=["Game/L1.png","Game/L2.png","Game/L3.png","Game/L4.png","Game/L5.png","Game/L6.png","Game/L7.png","Game/L8.png","Game/L9.png"]
 rightMotion=["Game/R1.png","Game/R2.png","Game/R3.png","Game/R4.png","Game/R5.png","Game/R6.png","Game/R7.png","Game/R8.png","Game/R9.png"]
 isJump =False #object not jumping initially
@@ -28,13 +26,15 @@ jumpCount=10
 
 totLeft=0
 totRight=0
+
+
 def road():
-    pygame.draw.rect(win,(0,0,0),(0,425,852,45))
-    j=0 
+    pygame.draw.rect(win,(45,45,45),(0,425,852,45))
+    j=10 
     for i in range(20):
         pygame.draw.rect(win,(255,255,255),(j,445,40,7))
         j+=100
-
+        
 def goingLeft(speedMultiplier):
     global x,vel
     if x >vel:
@@ -45,7 +45,9 @@ def goingRight(speedMultiplier):
     global reso_x,x,width,vel
     if x<reso_x-width-vel:
         newspeed=vel*speedMultiplier
-        x=(x+newspeed)        
+        x=(x+newspeed)
+
+
 
 run=True
 while run: #Main Loop
@@ -58,7 +60,13 @@ while run: #Main Loop
     moveRight=False
     pygame.display.update()
     
-######MOVEMENT#####
+###########MOVEMENT##########
+    if pygame.key.get_pressed()[pygame.K_e]: #Press E to exit
+        run=False
+    if pygame.key.get_pressed()[pygame.K_r]: #Press R to reset position-buggy with jump
+        x=100
+        y=400
+        
     if pygame.key.get_pressed()[pygame.K_LSHIFT]: #Sprint
         if pygame.key.get_pressed()[pygame.K_LEFT]:
             goingLeft(0.375)
@@ -92,7 +100,8 @@ while run: #Main Loop
             moveRight=True
             moveLeft=False
             totRight+=1
-            
+##Jumpcode##
+
     if not(isJump):
         if pygame.key.get_pressed()[pygame.K_SPACE]:
             isJump =True
@@ -101,12 +110,12 @@ while run: #Main Loop
             neg=1
             if jumpCount<0:
                 neg=-1 
-            y-=(jumpCount**2)*0.5*neg
+            y-=(jumpCount**2)*0.50*neg
             jumpCount-=1                
         else:
             isJump=False
             jumpCount=10
-
+############
     if moveLeft==True:
         win.blit(bg,(0,0))
         road()
@@ -127,7 +136,6 @@ while run: #Main Loop
         road()
         win.blit(stand,(x,y))    
 ########################
-
 
         
             
