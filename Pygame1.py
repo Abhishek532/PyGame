@@ -28,6 +28,12 @@ jumpCount=10
 
 totLeft=0
 totRight=0
+def road():
+    pygame.draw.rect(win,(0,0,0),(0,425,852,45))
+    j=0 
+    for i in range(20):
+        pygame.draw.rect(win,(255,255,255),(j,445,40,7))
+        j+=100
 
 def goingLeft(speedMultiplier):
     global x,vel
@@ -50,8 +56,6 @@ while run: #Main Loop
             run=False
     moveLeft=False
     moveRight=False
-    anime=True
-    
     pygame.display.update()
     
 ######MOVEMENT#####
@@ -66,18 +70,17 @@ while run: #Main Loop
             moveRight=True
             moveLeft=False
             totRight+=1
-            
-##    elif  pygame.key.get_pressed()[pygame.K_LCTRL]: #Slow
-##        if pygame.key.get_pressed()[pygame.K_LEFT]:
-##            goingLeft(0.125)
-##            moveLeft=True
-##            moveRight=False
-##            totLeft+=1
-##        if pygame.key.get_pressed()[pygame.K_RIGHT]:
-##            goingRight(0.125)
-##            moveRight=True
-##            moveLeft=False
-##            totRight+=1
+    elif pygame.key.get_pressed()[pygame.K_RSHIFT]: #Superfast-For debugging-delete later
+        if pygame.key.get_pressed()[pygame.K_LEFT]:
+            goingLeft(1)
+            moveLeft=True
+            moveRight=False
+            totLeft+=1
+        if pygame.key.get_pressed()[pygame.K_RIGHT]:
+            goingRight(1)
+            moveRight=True
+            moveLeft=False
+            totRight+=1
     else:                    
         if pygame.key.get_pressed()[pygame.K_LEFT]: #Walk
             goingLeft(0.125)
@@ -93,8 +96,6 @@ while run: #Main Loop
     if not(isJump):
         if pygame.key.get_pressed()[pygame.K_SPACE]:
             isJump =True
-            
-            
     else:
         if jumpCount >= -10:
             neg=1
@@ -102,32 +103,33 @@ while run: #Main Loop
                 neg=-1 
             y-=(jumpCount**2)*0.5*neg
             jumpCount-=1                
-
         else:
             isJump=False
             jumpCount=10
 
-            
     if moveLeft==True:
-        win.blit(bg,(0,0))        
+        win.blit(bg,(0,0))
+        road()
         for i in range(len(leftMotion)):
             if totLeft>=len(leftMotion):
                 totLeft=0
             win.blit(pygame.image.load(leftMotion[totLeft]),(x,y))
             
     elif moveRight==True:
-        win.blit(bg,(0,0))
+        win.blit(bg,(0,0)) 
+        road()
         for i in range(len(rightMotion)):
             if totRight>=len(rightMotion):
                 totRight=0
             win.blit(pygame.image.load(rightMotion[totRight]),(x,y))
     else:
         win.blit(bg,(0,0))
-        win.blit(stand,(x,y))
-    if pygame.key.get_pressed()[pygame.K_RSHIFT]: #del later
-        print(totLeft)
-    
+        road()
+        win.blit(stand,(x,y))    
 ########################
+
+
+        
             
 
 pygame.quit()
