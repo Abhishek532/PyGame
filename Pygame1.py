@@ -1,5 +1,4 @@
 import pygame
-import os
 pygame.init()
 
 reso_x=852 #resolution 
@@ -9,12 +8,13 @@ win = pygame.display.set_mode((reso_x,reso_y)) #Window Size
 pygame.display.set_caption("My Game") #Window Name
 
 x=100
-y=400 #Starting coordinates of object
+y=200 #Starting coordinates of object
 
 width=64
 height=64 #Dimensions of object
 
-vel=20 #vel of object
+hori_vel=20 #vel of object
+ver_vel=0
 
 bg=pygame.image.load("Game/bg.jpg")
 stand=pygame.image.load("Game/standing.png")
@@ -34,17 +34,19 @@ def road():
     for i in range(20):
         pygame.draw.rect(win,(255,255,255),(j,445,40,7))
         j+=100
+    pygame.draw.rect(win,(0,0,255),(325,447,20,20))
+    pygame.draw.rect(win,(255,0,0),(675,447,20,20))
         
 def goingLeft(speedMultiplier):
-    global x,vel
-    if x >vel:
-        newspeed=vel*speedMultiplier
+    global x,hori_vel
+    if x >hori_vel:
+        newspeed=hori_vel*speedMultiplier
         x=(x-newspeed)
 
 def goingRight(speedMultiplier):
-    global reso_x,x,width,vel
-    if x<reso_x-width-vel:
-        newspeed=vel*speedMultiplier
+    global reso_x,x,width,hori_vel
+    if x<reso_x-width-hori_vel:
+        newspeed=hori_vel*speedMultiplier
         x=(x+newspeed)
 
 
@@ -56,16 +58,35 @@ while run: #Main Loop
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run=False
+            
     moveLeft=False
     moveRight=False
+    
     pygame.display.update()
+
+    if x>=295 and x<=315 and pygame.key.get_pressed()[pygame.K_f]: #Portal
+        isJump=False
+        x=680
+        y=400
+    if x>=640 and x<=675 and pygame.key.get_pressed()[pygame.K_f]:
+        isJump=False
+        x=325
+        y=400
+
+    if y<reso_y-height-ver_vel and not(isJump):
+        moveDown=True
+        moveUp=False
+        ver_vel+=4
+        y+=ver_vel
+        if y>=410:
+            ver_vel=0
     
 ###########MOVEMENT##########
+            
     if pygame.key.get_pressed()[pygame.K_e]: #Press E to exit
         run=False
     if pygame.key.get_pressed()[pygame.K_r]: #Press R to reset position-buggy with jump
-        x=100
-        y=400
+        x=y=100   
         
     if pygame.key.get_pressed()[pygame.K_LSHIFT]: #Sprint
         if pygame.key.get_pressed()[pygame.K_LEFT]:
@@ -136,6 +157,7 @@ while run: #Main Loop
         road()
         win.blit(stand,(x,y))    
 ########################
+
 
         
             
