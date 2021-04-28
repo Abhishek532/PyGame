@@ -8,6 +8,8 @@ This **freshman** project was an attempt to extend my knowledge about programmin
 I used the **pygame** library for this project because of it's simple syntax. I found the character images online and I animated them myself with a loop. Every time the character moves, the next movement image would get loaded and displayed. For the portal mechanics, I simply used **if** statements to check the character position and if a key(F) was pressed in that position, the character would jump ahead to the next portal, and vice-versa.
 ## Screenshots 
 ![Capture (1)](https://user-images.githubusercontent.com/42097564/116083681-89be2580-a6ba-11eb-8aee-928f1de06052.PNG)
-![Capture1 (1)](https://user-images.githubusercontent.com/42097564/116083713-9478ba80-a6ba-11eb-99e1-a760539c559e.png)
 
+#### Pressing F while standing on the blue "portal"
+![Capture1 (1)](https://user-images.githubusercontent.com/42097564/116083713-9478ba80-a6ba-11eb-99e1-a760539c559e.png)
+#### ..will transfer you to the red "portal", and vice-versa
 ![Capture 3](https://user-images.githubusercontent.com/42097564/116083638-7ad77300-a6ba-11eb-9277-7dc4b0a38944.png)
